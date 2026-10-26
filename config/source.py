@@ -27,6 +27,7 @@ decman.pacman.packages |= {
         "fastfetch",
         "rust",
         "ranger",
+        "lua",
 }
 
 decman.aur.packages |= {
