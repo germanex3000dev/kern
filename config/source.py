@@ -25,8 +25,8 @@ with open("/home/pineapples/kern-all-foreign.txt") as f:
 decman.pacman.packages |= {
         "python",
         "fastfetch",
-        "htop",
         "rust",
+        "ranger",
 }
 
 decman.aur.packages |= {
