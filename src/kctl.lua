@@ -67,10 +67,25 @@ local function source()
 
   if option == "--check" then 
     print("Checking KERN configuration...")
-    os.execute("sudo decman --source "..config_path.." --debug --dry-run")
+    local ok, kind, code = os.execute(
+      "sudo decman --source "..config_path.." --dry-run"
+    )
+    if ok then 
+      print("\nConfiguration check completed")
+    else
+      io.stderr:write("\nConfiguration check failed.\n")
+    end
+
   elseif option == "--edit" then
     print("Opening KERN configuration...")
     os.execute(editor .." ".. config_path)
+
+  elseif option == "--debug" then
+    print("Checking KERN configuration with debug output...")
+    local ok, kind, code = os.execute(
+      "sudo decman --source "..config_path.." --dry-run"
+    )
+
   elseif option == nil then
     print("KERN CONFIGURATION\n")
     print("------------------")
