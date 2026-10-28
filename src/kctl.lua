@@ -1,6 +1,8 @@
 -- kern config path location
 local config_path = os.getenv("HOME") .. "/kern/config/source.py"
 
+local editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vim"
+
 local function command_exists(command)
   local handle = io.popen("command -v " .. command .. ">/dev/null 2>&1; echo $?")
   if not handle then
@@ -67,7 +69,8 @@ local function source()
     print("Checking KERN configuration...")
     os.execute("sudo decman --source "..config_path.." --debug --dry-run")
   elseif option == "--edit" then
-  print("Opening KERN configuration...")
+    print("Opening KERN configuration...")
+    os.execute(editor .. config_path)
   elseif option == nil then
     print("KERN CONFIGURATION\n")
     print("------------------")
