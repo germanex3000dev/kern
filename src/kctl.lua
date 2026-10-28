@@ -1,3 +1,23 @@
+local function command_exists(command)
+  local result = os.execute("command -v " .. command .. ">/dev/null 2>&1")
+  return result == true or result == 0
+end
+
+
+-- Read sytsem informatin direcctly from files
+local function read_file(path)
+  local file = io.open(path, "r")
+
+  if not file then
+    return nil
+  end
+
+  local content = file:read("*a")
+  file:close()
+
+  return content
+end 
+
 local function show_help()
 	print("KERN Control Utility")
 	print("")
@@ -12,6 +32,9 @@ local function status()
 	print("KERN SYSTEM STATUS")
 	print("------------------")
 	print("kctl: operational")
+  print("------------------")
+  print("System")
+  print("   Kernel:", read_file("/proc/sys/kernel/ostype"))
 end
 
 local commands = {
