@@ -1,3 +1,2 @@
 #!/bin/sh
-SCRIPT_DIR="$(SDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-exec lua "$SCRPT_DIR/../src/kctl.lua" "$@"
+exec lua "$HOME/kern/src/kctl.lua" "$@"
