@@ -74,6 +74,7 @@ local function source()
       print("\nConfiguration check completed")
     else
       io.stderr:write("\nConfiguration check failed.\n")
+      os.exit(1)
     end
 
   elseif option == "--edit" then
@@ -85,6 +86,12 @@ local function source()
     local ok, kind, code = os.execute(
       "sudo decman --source "..config_path.." --dry-run"
     )
+    if ok then
+      print("\nConfiguration check completed.\n")
+    else
+      print("\nConfiguration check failed.\n")
+      os.exit(1)
+    end
 
   elseif option == nil then
     print("KERN CONFIGURATION\n")
@@ -108,8 +115,12 @@ local function show_help()
 	print("Usage: kctl <command>")
 	print("")
 	print("Commands: ")
-	print("   status          Show system status")
-	print("   help		  Show this help")
+	print("   status          Show system status\n")
+  print("   source          Show source status")
+  print("       --check     Check source file for errors")
+  print("       --debug     Check source file with debug output")
+  print("       --edit      Open the configuration file in editor\n")
+	print("   help		   Show this help\n")
 end
 
 local function status()
