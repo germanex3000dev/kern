@@ -21,7 +21,6 @@ with open("/home/pineapples/kern-all-foreign.txt") as f:
             if line.strip() and line.strip() != "decman"
     }
 
-
 decman.pacman.packages |= {
         "python",
         "fastfetch",

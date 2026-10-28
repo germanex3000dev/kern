@@ -65,7 +65,7 @@ local function source()
 
   if option == "--check" then 
     print("Checking KERN configuration...")
-    os.execute("decman --source"..config_path.."--debug --dry-run")
+    os.execute("sudo decman --source "..config_path.." --debug --dry-run")
   elseif option == "--edit" then
   print("Opening KERN configuration...")
   elseif option == nil then
