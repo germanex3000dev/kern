@@ -60,6 +60,30 @@ local function trim(s)
   return (string.gsub(s, "^%s+", ""):gsub("%s+$", ""))
 end
 
+local function source()
+  local option = arg[2]
+
+  if option == "--check" then 
+    print("Checking KERN configuration...")
+    os.execute("decman --source"..config_path.."--debug --dry-run")
+  elseif option == "--edit" then
+  print("Opening KERN configuration...")
+  elseif option == nil then
+    print("KERN CONFIGURATION\n")
+    print("------------------")
+    print("Source "..config_path)
+
+    if file_exists(config_path) then
+      print("Status: found")
+    else
+      print("Status: missing")
+    end
+  else 
+    io.stderr:write("kctl source: unknown option: " .. option .. "\n")
+    os.exit(1)
+  end
+end
+
 local function show_help()
 	print("KERN Control Utility")
 	print("")
@@ -109,6 +133,7 @@ end
 local commands = {
 	status = status,
 	help = show_help,
+  source = source,
 }
 
 local command = arg[1] or "help"
