@@ -70,7 +70,7 @@ local function source()
     os.execute("sudo decman --source "..config_path.." --debug --dry-run")
   elseif option == "--edit" then
     print("Opening KERN configuration...")
-    os.execute(editor .. config_path)
+    os.execute(editor .." ".. config_path)
   elseif option == nil then
     print("KERN CONFIGURATION\n")
     print("------------------")
