@@ -74,7 +74,7 @@ local function status()
     print("   Kernel: unavailable")
   end
 
-  print("   Architecture: " .. trim(get_architecture()))
+  print("   Architecture: " .. trim(get_architecture()).."\n")
 
   -- Check if dependencies are installed, via command_exists()
   print("Components")
