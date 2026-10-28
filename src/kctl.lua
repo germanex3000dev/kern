@@ -69,17 +69,17 @@ local function status()
   --  Prints the kernel and removes surrounding whitespace
   if kerneli then
     local kernel = trim(kerneli)
-    print("   Kernel:", kernel)
+    print("   Kernel: " .. kernel)
   else
     print("   Kernel: unavailable")
   end
 
-  print("   Architecture:", trim(get_architecture()))
+  print("   Architecture: " .. trim(get_architecture()))
 
   -- Check if dependencies are installed, via command_exists()
   print("Components")
-  print("   Lua:", command_exists("lua") and "installed" or "missing")
-  print("   decman:", command_exists("decman") and "installed" or "missing")
+  print("   Lua: " .. (command_exists("lua") and "installed" or "missing"))
+  print("   decman: " .. (command_exists("decman") and "installed" or "missing"))
 end
 
 local commands = {
