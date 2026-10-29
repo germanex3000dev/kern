@@ -164,6 +164,10 @@ local function show_help()
   print("       --check     Check source file for errors")
   print("       --debug     Check source file with debug output")
   print("       --edit      Open the configuration file in editor\n")
+  print("   forge")
+  print("       --dry-run   Preview the changes of the source file without applying")
+  print("       --apply     Apply the configuration changes")
+  print("       --help      Show 'kctl forge' help\n")
 	print("   help		   Show this help\n")
 end
 
