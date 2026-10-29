@@ -50,7 +50,6 @@ local function file_exists(path)
   else
     return nil
   end
-
   handle:close()
 end
 
@@ -61,6 +60,51 @@ local function trim(s)
   end
   return (string.gsub(s, "^%s+", ""):gsub("%s+$", ""))
 end
+
+local function forge()
+  local option = arg[2]
+
+  if option == "--dry-run" then
+    local ok, kind, code = os.execute(
+      "sudo decman --source "..config_path.." --dry-run"
+    )
+    if ok then
+      print("\nDry run succesful\n")
+    else
+      io.stderr:write("\nDry run failed\n")
+      os.exit(1)
+    end
+  elseif option == "--apply" then
+    local ok, kin, code = os.execute(
+      "sudo decman --source "..config_path
+    )
+    if ok then
+      print("\nApplied new configuration successfully\n")
+    else
+      io.stderr:write("\nApply failed\n")
+      os.exit(1)
+    end
+  elseif option == "--help" then
+    print("KERN FORGE HELP\n")
+    print("-------------------")
+    print("options:")
+    print("   kctl forge")
+    print("            --dry-run     Preview changes of the source file")
+    print("            --apply       Apply the new configuration changes")
+    print("            --help        Show this help screen\n")
+    print("-------------------")
+  elseif option == nil then
+    print("KERN FORGE HELP\n")
+    print("-------------------")
+    print("options:")
+    print("   kctl forge")
+    print("            --dry-run     Preview changes of the source file")
+    print("            --apply       Apply the new configuration changes")
+    print("            --help        Show this help screen\n")
+    print("-------------------")
+  end
+end
+
 
 local function source()
   local option = arg[2]
@@ -123,6 +167,7 @@ local function show_help()
 	print("   help		   Show this help\n")
 end
 
+
 local function status()
   local kerneli = read_file("/proc/sys/kernel/ostype")
 
@@ -163,6 +208,7 @@ local commands = {
 	status = status,
 	help = show_help,
   source = source,
+  forge = forge,
 }
 
 local command = arg[1] or "help"
