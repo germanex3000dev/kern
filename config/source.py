@@ -2,16 +2,6 @@ import decman
 from pathlib import Path
 import os
 
-declared_output = os.environ.get("KERN_DECLARED_OUTPUT")
-
-if declared_output:
-    with open(declared_output, "w") as f:
-        for package in sorted(decman.pacman.packages):
-            f.write(package + "\n")
-
-        for package in sorted(decman.aur.packages):
-            f.write(package + "\n")
-
 ledger_path = Path("/var/lib/kern/ledger.txt")
 
 if ledger_path.exists():
@@ -37,6 +27,14 @@ decman.pacman.packages |= {
 decman.aur.packages |= {
         "decman",
 }
+
+declared_path = Path("/var/lib/kern/declared.txt")
+declared_path.parent.mkdir(parents=True, exist_ok=True)
+with open(declared_path, "w") as f:
+    for package in sorted(decman.pacman.packages):
+        f.write(package + "\n")
+    for package in sorted(decman.aur.packages):
+        f.write(package + "\n")
 
 print("pacman; ", decman.pacman.packages)
 print("aur: ", decman.aur.packages)
