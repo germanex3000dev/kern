@@ -69,8 +69,22 @@ local function create_generation()
 		return nil
 	end
 
+	-- Generate declared.txt by running decman with the generation's source.py
+	local gen_source = generation_path.."/source.py"
+	local ok = os.execute("sudo decman --source "..gen_source.." --dry-run >/dev/null 2>&1")
 
-	return generations_path
+	-- Copy the declared.txt that decman generates
+	local declared_src = "/var/lib/kern/declared.txt"
+	local declared_dst = generation_path.."/declared.txt"
+	local ok = os.execute("sudo cp "..declared_src.." "..declared_dst)
+
+	if not ok then
+		io.stderr:write("kctl: failed to copy declared packages")
+		return nil
+	end
+
+
+	return generation_path
 end
 
 
