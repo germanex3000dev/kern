@@ -12,7 +12,7 @@ if declared_output:
 
     with open(declared_output, "w") as f:
         for package in sorted(declared):
-            f.write(package + 
+            f.write(package + "\n")
 
 ledger_path = Path("/var/lib/kern/ledger.txt")
 
