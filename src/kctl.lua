@@ -42,6 +42,8 @@ local function create_generation()
 	local generation = get_next_generation()
 	local generation_path = gen_path.."/"..generation
 
+	local declared_path = generation_path.."/declared.txt"
+
 	-- Creates the new generation directory
 	local ok = os.execute("sudo mkdir -p "..generation_path)
 
@@ -68,6 +70,11 @@ local function create_generation()
 		io.stderr:write("kctl: failed to copy ledger")
 		return nil
 	end
+
+	-- write 'declared.txt' 
+	local ok = os.execute(
+		"sudo env KERN_DECLARED_OUTPUT=" ..declared_path.." decman --source "..config_path.. " --dry-run"
+	)
 
 
 	return generations_path
