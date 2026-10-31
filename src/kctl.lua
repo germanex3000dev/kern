@@ -3,6 +3,8 @@ local config_path = os.getenv("HOME") .. "/kern/config/source.py"
 
 local editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vim"
 
+
+-- Checks if a command exists 
 local function command_exists(command)
   local handle = io.popen("command -v " .. command .. ">/dev/null 2>&1; echo $?")
   if not handle then
@@ -15,6 +17,8 @@ local function command_exists(command)
   return result == "0"
 end
 
+
+-- architecture of system(64-bit, 32-bit)
 local function get_architecture()
   local handle = io.popen("uname -m")
 
@@ -26,6 +30,40 @@ local function get_architecture()
   handle:close()
 
   return result or "unavailable"
+end
+
+
+-- helper functions to get the installed packages
+local function get_installed_packages()
+  local handle = io.popen("pacman -Qqe")
+
+  if not handle then
+    return nil
+  end
+
+  local packages = {}
+
+  while true do 
+    local line = handle:read("*l")
+
+    if not line then
+      break
+    end
+
+    packages[line] = true
+  end
+
+  handle:close()
+
+  return packages
+end
+
+local function print_packages()
+  local packages = get_installed_packages()
+
+  for p, _ in pairs(packages) do
+    print(p)
+  end
 end
 
 -- Read sytsem informatin direcctly from files
@@ -213,6 +251,7 @@ local commands = {
 	help = show_help,
   source = source,
   forge = forge,
+  packages = print_packages()
 }
 
 local command = arg[1] or "help"
