@@ -7,10 +7,10 @@ declared_output = os.environ.get("KERN_DECLARED_OUTPUT")
 if declared_output:
     with open(declared_output, "w") as f:
         for package in sorted(decman.pacman.packages):
-            f.write(package + "")
+            f.write(package + "\n")
 
         for package in sorted(decman.aur.packages):
-            f.write(package + "")
+            f.write(package + "\n")
 
 ledger_path = Path("/var/lib/kern/ledger.txt")
 
