@@ -1,4 +1,8 @@
 import decman
+from pathlib import Path 
+
+if pathlib.Path.exists("/var/lib/kern"):
+    ledger = "/var/lib/kern/ledger.txt"
 
 with open("/home/pineapples/kern-packages-native.txt") as f:
     decman.pacman.ignored_packages |= {
