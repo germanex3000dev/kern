@@ -5,14 +5,12 @@ import os
 declared_output = os.environ.get("KERN_DECLARED_OUTPUT")
 
 if declared_output:
-    declared= (
-            decman.pacman.packages |
-            decman.aur.packages
-    )
-
     with open(declared_output, "w") as f:
-        for package in sorted(declared):
-            f.write(package + "\n")
+        for package in sorted(decman.pacman.packages):
+            f.write(package + "")
+
+        for package in sorted(decman.aur.packages):
+            f.write(package + "")
 
 ledger_path = Path("/var/lib/kern/ledger.txt")
 
@@ -39,3 +37,6 @@ decman.pacman.packages |= {
 decman.aur.packages |= {
         "decman",
 }
+
+print("pacman; ", decman.pacman.packages)
+print("aur: ", decman.aur.packages)
