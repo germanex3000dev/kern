@@ -1,7 +1,77 @@
 -- kern config path location
 local config_path = os.getenv("HOME") .. "/kern/config/source.py"
 
+-- kern's generation path's
+local kern_path = "/var/lib/kern"
+local gen_path = kern_path.."/generations/"
+
+
 local editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vim"
+
+-- Ledger path
+local ledger_path = "/var/lib/kern/ledger.txt"
+
+
+-----------------------------------------------------------------------
+
+-- Generation functions------------------------------------------------
+local function get_next_generation()
+	local handle = io.popen("ls -1 "..gen_path)
+
+	if not handle then
+		return nil
+	end
+
+	local highest = 0
+
+	for line in handle:lines() do
+		local number = tonumber(line)
+
+		if number and number > highest then
+			highest = number
+		end
+	end
+
+	handle:close()
+
+	return string.format("%03d", highest + 1)
+end
+
+--creates generation
+local function create_generation()
+	local generation = get_next_generation()
+	local generation_path = gen_path.."/"..generation
+
+	-- Creates the new generation directory
+	local ok = os.execute("sudo mkdir -p "..generation_path)
+
+	if not ok then
+		io.stderr:write("kctl: failed to create generation directory")
+	end
+
+	-- Copies the source.py file
+	local ok = os.execute(
+		"sudo cp  "..config_path.." "..generation_path.."/source.py"
+	)
+
+	if not ok then 
+		io.stderr:write("kctl: failed to copy configuration")
+		return nil
+	end
+
+	-- copies the ledger
+	local ok = os.execute(
+		"sudo cp "..ledger_path.." "..generation_path.."/ledger.txt"
+	)
+
+	if not ok then
+		io.stderr:write("kctl: failed to copy ledger")
+		return nil
+	end
+
+
+	return generations_path
+end
 
 
 -- Checks if a command exists 
@@ -268,5 +338,8 @@ else
 	show_help()
 	os.exit(1)
 end
+
+local path = create_generation()
+print(path)
 
 
