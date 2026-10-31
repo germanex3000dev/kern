@@ -1,29 +1,17 @@
 import decman
-from pathlib import Path 
+from pathlib import Path
 
-if pathlib.Path.exists("/var/lib/kern"):
-    ledger = "/var/lib/kern/ledger.txt"
+ledger_path = Path("/var/lib/kern/ledger.txt")
 
-with open("/home/pineapples/kern-packages-native.txt") as f:
-    decman.pacman.ignored_packages |= {
+if ledger_path.exists():
+    with open(ledger_path) as f:
+        ignored = {
             line.strip()
             for line in f
             if line.strip()
-    }
-
-with open("/home/pineapples/kern-packages-foreign.txt") as f:
-    decman.aur.ignored_packages |= {
-            line.strip()
-            for line in f
-            if line.strip()
-    }
-
-with open("/home/pineapples/kern-all-foreign.txt") as f:
-    decman.aur.ignored_packages |= {
-            line.strip()
-            for line in f
-            if line.strip() and line.strip() != "decman"
-    }
+        }
+        decman.pacman.ignored_packages |= ignored
+        decman.aur.ignored_packages |= ignored
 
 decman.pacman.packages |= {
         "python",
@@ -36,4 +24,3 @@ decman.pacman.packages |= {
 decman.aur.packages |= {
         "decman",
 }
-

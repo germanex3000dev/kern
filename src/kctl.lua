@@ -61,6 +61,10 @@ end
 local function print_packages()
   local packages = get_installed_packages()
 
+  if not packages then
+    return
+  end
+
   for p, _ in pairs(packages) do
     print(p)
   end
@@ -251,7 +255,7 @@ local commands = {
 	help = show_help,
   source = source,
   forge = forge,
-  packages = print_packages()
+  packages = print_packages
 }
 
 local command = arg[1] or "help"
